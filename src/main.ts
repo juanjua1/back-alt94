@@ -31,11 +31,12 @@ async function bootstrap() {
     await seedService.seedProducts();
   }
   
-  const port = configService.get<number>('PORT') || process.env.PORT || 3000;
-  await app.listen(port, '0.0.0.0');
+  const port = process.env.PORT || configService.get<number>('PORT') || 3000;
+  const server = await app.listen(port, '0.0.0.0');
   
   console.log('🚀 Property API is running on port', port);
   console.log('🌍 Environment:', configService.get<string>('NODE_ENV'));
   console.log('🔗 Server listening on:', `http://0.0.0.0:${port}`);
+  console.log('🔗 Process PORT:', process.env.PORT);
 }
 bootstrap();
