@@ -101,20 +101,25 @@ npm run test:e2e
 
 ## Despliegue en Render
 
-### Configuración automática
-Este proyecto incluye un archivo `render.yaml` para despliegue automático en Render.
+### Configuración en Render Dashboard
+1. **Conectar tu repositorio** de GitHub
+2. **Build Command**: `npm install && npm run build`
+3. **Start Command**: `npm run start:prod`
+4. **Node Version**: 18.18.0 (especificado en .nvmrc)
 
-### Variables de entorno en Render
-Configurar las siguientes variables en el dashboard de Render:
+### Variables de entorno requeridas
+Configurar en el dashboard de Render:
 
 ```
-MONGODB_URI=tu_conexion_mongodb_atlas
-JWT_SECRET=tu_clave_jwt_secreta
+MONGODB_URI=mongodb+srv://usuario:password@cluster.mongodb.net/database
+JWT_SECRET=tu_clave_jwt_secreta_muy_larga
 JWT_EXPIRES_IN=1d
 NODE_ENV=production
-CORS_ORIGIN=https://tu-frontend.vercel.app
+CORS_ORIGIN=https://alt94-front.vercel.app
+NODE_OPTIONS=--max-old-space-size=1024
 ```
 
-### Comandos de build
-- **Build Command**: `npm run render:build`
-- **Start Command**: `npm run start:prod`
+### Solución de problemas comunes
+- **Error de memoria**: Variable `NODE_OPTIONS=--max-old-space-size=1024` ya incluida
+- **Puerto no detectado**: El código usa `process.env.PORT` automáticamente
+- **Seed en producción**: Deshabilitado automáticamente en NODE_ENV=production

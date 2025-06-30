@@ -24,13 +24,18 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
-  const seedService = app.get(SeedService);
-  await seedService.seedProducts();
+  // Solo ejecutar seed en desarrollo
+  const nodeEnv = configService.get<string>('NODE_ENV');
+  if (nodeEnv !== 'production') {
+    const seedService = app.get(SeedService);
+    await seedService.seedProducts();
+  }
   
   const port = configService.get<number>('PORT') || process.env.PORT || 3000;
   await app.listen(port, '0.0.0.0');
   
   console.log('🚀 Property API is running on port', port);
   console.log('🌍 Environment:', configService.get<string>('NODE_ENV'));
+  console.log('🔗 Server listening on:', `http://0.0.0.0:${port}`);
 }
 bootstrap();

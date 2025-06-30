@@ -3,19 +3,19 @@ services:
     name: property-api
     env: node
     plan: free
-    buildCommand: npm run render:build
+    buildCommand: npm install && npm run build
     startCommand: npm run start:prod
     healthCheckPath: /
     envVars:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
-        fromDatabase:
-          name: property-db
-          property: connectionString
+        sync: false
       - key: JWT_SECRET
         generateValue: true
       - key: JWT_EXPIRES_IN
         value: 1d
       - key: CORS_ORIGIN
         value: https://alt94-front.vercel.app
+      - key: NODE_OPTIONS
+        value: --max-old-space-size=1024
